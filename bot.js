@@ -21,7 +21,7 @@ client.on('message', message => {
       message.channel.sendMessage(`**  ${argresult} تم تغيير الحاله الي :white_check_mark:**`)
   } else 
   if (message.content.startsWith(adminprefix + 'st')) {
-    client.user.setGame(argresult, "https://www.twitch.tv/Taaino");
+    client.user.setGame(argresult, "https://www.twitch.tv/Taino#6004");
       message.channel.sendMessage(`**  ${argresult} تم تغيير الحاله الي :white_check_mark:**`)
   }
   });
