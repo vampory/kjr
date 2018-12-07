@@ -283,7 +283,7 @@ client.on("message", (message) => {
 });
 
 client.on('message', message => {
-    if (message.content.startsWith("$help")) {
+    if (message.content.startsWith("•help")) {
 let embed = new Discord.RichEmbed()
 .setThumbnail(message.author.avatarURL)
 .addField('     **$play** ' ,' ** if you want start your music do $play <link music or name >** ')
