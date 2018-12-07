@@ -11,7 +11,6 @@ const prefix = '•';
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
-client.user.setGame(`3play`,"https://www.twitch.tv/Anime & Games")
   console.log('')
   console.log('')
   console.log('╔[═════════════════════════════════════════════════════════════════]╗')
@@ -69,6 +68,7 @@ var now_playing = [];
 \\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////
 \\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////
 */
+
 client.on('ready', () => {});
 console.log("Logged")
 var download = function(uri, filename, callback) {
@@ -95,6 +95,7 @@ client.on('message', function(message) {
 			message.channel.sendEmbed(play_info)
 			return;
 		}
+		
 		if (queue.length > 0 || isPlaying) {
 			getID(args, function(id) {
 				add_to_queue(id);
@@ -298,6 +299,15 @@ let embed = new Discord.RichEmbed()
 .setColor('#24efbd')
 message.channel.sendEmbed(embed);
 }
+});
+
+client.on('message', message => {
+    if (message.author.bot) return;
+    if (!message.content.startsWith(prefix)) return;
+
+    if (message.content.startsWith(prefix + 'ping')) {
+        message.channel.sendMessage('Pong! Your ping is `' + `${Date.now() - message.createdTimestamp}` + ' ms`');
+    }
 });
 
 
