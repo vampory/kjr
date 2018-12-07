@@ -7,7 +7,7 @@ const getYoutubeID = require('get-youtube-id');
 const fetchVideoInfo = require('youtube-info');
 
 const yt_api_key = "AIzaSyDeoIH0u1e72AtfpwSKKOSy3IPp2UHzqi4";
-const prefix = '3';
+const prefix = '•';
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -303,23 +303,23 @@ message.channel.sendEmbed(embed);
 
 
 client.on('message', message => {
-  if (!message.content.startsWith(PREFIX)) return;
+  if (!message.content.startsWith(prefix)) return;
   var args = message.content.split(' ').slice(1);
   var argresult = args.join(' ');
   if (message.author.id !== "475070652727033858") return;
 
-if (message.content.startsWith(PREFIX + 'st')) {
+if (message.content.startsWith(prefix + 'st')) {
   client.user.setGame(argresult, "https://www.twitch.tv/0T#6004");
 	 console.log('test' + argresult);
     message.channel.sendMessage(`Streaming: **${argresult}`)
 }
 
-if (message.content.startsWith(PREFIX + 'un')) {
+if (message.content.startsWith(prefix + 'un')) {
   client.user.setUsername(argresult).then
 	  message.channel.sendMessage(`Username Changed To **${argresult}**`)
   return message.reply("تستطيع تغيير الاسم مرتين فقط في اليوم");
 }
-if (message.content.startsWith(PREFIX + 'av')) {
+if (message.content.startsWith(prefix + 'av')) {
   client.user.setAvatar(argresult);
    message.channel.sendMessage(`Avatar Changed Successfully To **${argresult}**`);
 }
