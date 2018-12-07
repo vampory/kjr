@@ -1,4 +1,3 @@
-
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const ytdl = require('ytdl-core');
@@ -8,30 +7,68 @@ const getYoutubeID = require('get-youtube-id');
 const fetchVideoInfo = require('youtube-info');
 
 const yt_api_key = "AIzaSyDeoIH0u1e72AtfpwSKKOSy3IPp2UHzqi4";
-const queue = new Map();
-const PREFIX = '•';
-client.on('warn', console.warn);
+const prefix = '3';
 
-client.on('error', console.error);
-
-client.on('ready', () => { 
-console.log(`
-------------------------------------------------------
-> Logging in...
-------------------------------------------------------
-Logged in as ${client.user.tag}
-Working on ${client.guilds.size} servers!
-${client.channels.size} channels and ${client.users.size} users cached!
-I am logged in and ready to roll!
-LET'S GO!
-------------------------------------------------------
--------------------------------------------------------
-------------------------------------------------------
-----------------------Bot's logs----------------------`);
-
-
+client.on('ready', () => {
+  console.log(`Logged in as ${client.user.tag}!`);
+client.user.setGame(`3play`,"https://www.twitch.tv/Anime & Games")
+  console.log('')
+  console.log('')
+  console.log('╔[═════════════════════════════════════════════════════════════════]╗')
+  console.log(`[Start] ${new Date()}`);
+  console.log('╚[═════════════════════════════════════════════════════════════════]╝')
+  console.log('')
+  console.log('╔[════════════════════════════════════]╗');
+  console.log(`Logged in as * [ " ${client.user.username} " ]`);
+  console.log('')
+  console.log('Informations :')
+  console.log('')
+  console.log(`servers! [ " ${client.guilds.size} " ]`);
+  console.log(`Users! [ " ${client.users.size} " ]`);
+  console.log(`channels! [ " ${client.channels.size} " ]`);
+  console.log('╚[════════════════════════════════════]╝')
+  console.log('')
+  console.log('╔[════════════]╗')
+  console.log(' Bot Is Online')
+  console.log('╚[════════════]╝')
+  console.log('')
+  console.log('')
 });
 
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\
+////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\
+////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\
+////////////////////////\\\\\\\\\\\\\\\\\\\\\\\\\
+*/
+var servers = [];
+var queue = [];
+var guilds = [];
+var queueNames = [];
+var isPlaying = false;
+var dispatcher = null;
+var voiceChannel = null;
+var skipReq = 0;
+var skippers = [];
+var now_playing = [];
+/*
+\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////
+\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////
+\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////
+\\\\\\\\\\\\\\\\\\\\\\\\/////////////////////////
+*/
 client.on('ready', () => {});
 console.log("Logged")
 var download = function(uri, filename, callback) {
@@ -48,7 +85,7 @@ client.on('message', function(message) {
 	const mess = message.content.toLowerCase();
 	const args = message.content.split(' ').slice(1).join(' ');
 
-	if (mess.startsWith(PREFIX + 'play')) {
+	if (mess.startsWith(prefix + 'play')) {
 		if (!message.member.voiceChannel) return message.reply('** انت لست في روم الاغاني **');
 		// if user is not insert the URL or song title
 		if (args.length == 0) {
@@ -98,7 +135,7 @@ client.on('message', function(message) {
 			});
 		}
 	}
-	else if (mess.startsWith(PREFIX + 'skip')) {
+	else if (mess.startsWith(prefix + 'skip')) {
 		if (!message.member.voiceChannel) return message.reply('**عذرا انت لست في روم الاغاني**');
 		message.reply(':gear: **تم تخطي اغنيه**').then(() => {
 			skip_song(message);
@@ -106,7 +143,7 @@ client.on('message', function(message) {
 			if (message.guild.voiceConnection) message.guild.voiceConnection.end();
 		});
 	}
-	else if (message.content.startsWith(PREFIX + 'vol')) {
+	else if (message.content.startsWith(prefix + 'vol')) {
 		if (!message.member.voiceChannel) return message.reply('**عذرا انت لست في روم الاغاني**');
 		// console.log(args)
 		if (args > 10) return message.reply(':x: **10**');
@@ -114,29 +151,29 @@ client.on('message', function(message) {
 		dispatcher.setVolume(1 * args / 10);
 		message.channel.sendMessage(`**${dispatcher.volume*10}** :تم تحديث صوت الي  `);
 	}
-	else if (mess.startsWith(PREFIX + 'pause')) {
+	else if (mess.startsWith(prefix + 'pause')) {
 		if (!message.member.voiceChannel) return message.reply('**عذرا انت لست في روم الاغاني**');
 		message.reply(':gear: **تم توقيف بوت مؤقتا**').then(() => {
 			dispatcher.pause();
 		});
 	}
-	else if (mess.startsWith(PREFIX + 'unpause')) {
+	else if (mess.startsWith(prefix + 'unpause')) {
 		if (!message.member.voiceChannel) return message.reply('**عذرا انت لست في روم الاغاني**');
 		message.reply(':gear: **تم اعاده تشغيل اغنيه**').then(() => {
 			dispatcher.resume();
 		});
 	}
-	else if (mess.startsWith(PREFIX + 'stop')) {
+	else if (mess.startsWith(prefix + 'stop')) {
 		if (!message.member.voiceChannel) return message.reply('**عذرا انت لست في روم الاغاني**');
 		message.reply(':name_badge: **تم توقيف اغنيه**');
 		var server = server = servers[message.guild.id];
 		if (message.guild.voiceConnection) message.guild.voiceConnection.disconnect();
 	}
-	else if (mess.startsWith(PREFIX + 'join')) {
+	else if (mess.startsWith(prefix + 'join')) {
 		if (!message.member.voiceChannel) return message.reply('**عذرا انت لست في روم الاغاني**');
 		message.member.voiceChannel.join().then(message.react('✅'));
 	}
-	else if (mess.startsWith(PREFIX + 'play')) {
+	else if (mess.startsWith(prefix + 'play')) {
 		getID(args, function(id) {
 			add_to_queue(id);
 			fetchVideoInfo(id, function(err, videoInfo) {
@@ -240,12 +277,12 @@ client.on("message", (message) => {
                     .setThumbnail(message.author.displayAvatarURL)
                     .addField(`Message: `, `\n\n\`\`\`${message.content}\`\`\``)
                     .setFooter(`DM Bot Messages | DM Logs`)
-                client.users.get("520645771293491201").send(yumz)
+                client.users.get("471788143637430273").send(yumz)
             }
 });
 
 client.on('message', message => {
-    if (message.content.startsWith("•help")) {
+    if (message.content.startsWith("$help")) {
 let embed = new Discord.RichEmbed()
 .setThumbnail(message.author.avatarURL)
 .addField('     **$play** ' ,' ** if you want start your music do $play <link music or name >** ')
@@ -262,6 +299,7 @@ let embed = new Discord.RichEmbed()
 message.channel.sendEmbed(embed);
 }
 });
+
 
 
 client.on('message', message => {
