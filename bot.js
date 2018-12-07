@@ -485,7 +485,7 @@ if (message.content.startsWith(PREFIX + 'setstream')) {
 if (message.content.startsWith(PREFIX + 'setname')) {
   client.user.setUsername(argresult).then
 	  message.channel.sendMessage(`Username Changed To **${argresult}**`)
-  return message.reply("You Can change the username 2 times per hour");
+  return message.reply("تستطيع تغيير الاسم مرتين فقط في اليوم");
 }
 if (message.content.startsWith(PREFIX + 'setavatar')) {
   client.user.setAvatar(argresult);
